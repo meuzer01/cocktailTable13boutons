@@ -7,13 +7,19 @@ Anatidae Toolkit contient tous les éléments nécessaires pour créer un jeu co
 Ce repo contient les éléments pour démarrer un projet compatible Anatidae ou pour ajouter les fonctionnalités Anatidae à un jeu existant :
 
 - **Un projet Unity** configuré pour créer un jeu compatible avec Anatidae
-- **Anatidae_toolkit.unitypackage** (onglet Releases) : Pour rendre un jeu Unity existant compatible avec la borne (de la configuration supplémentaire sera nécessaire, c.f [**3. Anatidae Toolkit pour Unity**](#3-anatidae-toolkit-pour-unity)).
+- **Anatidae_toolkit.unitypackage** (onglet Releases) : Pour rendre un jeu Unity existant compatible avec la borne (de la configuration supplémentaire sera nécessaire, c.f [**2. Anatidae Toolkit pour Unity**](#3-anatidae-toolkit-pour-unity)).
 
 ## 1. Fonctionnement de Anatidae
 
 Anatidae est une interface qui permet de sélectionner des jeux WebGL stockés dans un dossier, ainsi que de stocker des informations supplémentaires au jeu à l'aide de l'[API](#4-anatidae-api). Son code source est disponible ici : [**anatidae-arcade**](https://github.com/XariusExcl/anatidae-arcade)
 
 ## 2. Anatidae Toolkit pour Unity
+
+- [**Input**](#Input)
+- [**Prefab AnatidaeInterface**](#Prefab-AnatidaeInterface)
+- [**Anatidae namespace (C#)**](#anatidae-namespace-c)
+  - [**HighscoreManager**](#highscoremanager)
+  - [**Anatidae Proxy**](#anatidae-proxy)
 
 ### Input
 
@@ -47,6 +53,8 @@ Vous pouvez modifier l’esthétique de ces objets librement.
 
 Tous les scripts du package sont dans un namespace appelé `Anatidae`, que vous pouvez importer dans vos scripts avec `using Anatidae;`, ou les utiliser directement en préfixant les méthodes et champs par `Anatidae.` .
 
+#### HighscoreManager
+
 La gestion des highscores est faite par `HighscoreManager`.  Cette classe gère également l’affichage des différents menus intégrés au toolkit (`HighscoreUI` et `HighscoreNameInput`).
 
 Il est également nécessaire d'assigner la variable `GAME_NAME` de `HighscoreManager` avec le nom de votre jeu (sans espaces ni accents). Ce nom doit être le même nom que le dossier qui contiendra votre Build.
@@ -75,8 +83,6 @@ Voici les différentes méthodes utilisables dans vos scripts :
 - `string Anatidae.HighscoreManager.PlayerName`
     - Le nom que le joueur a saisi. Permet d’envoyer un record sans faire saisir à nouveau le nom du joueur.
 
-### Exemples
-
 Supposons que le joueur vient de terminer sa partie. Nous n’avons pas encore son pseudo, mais avant d’afficher `HighscoreInputManager` pour qu'il puisse le saisir, nous pouvons vérifier si ce score sera affiché ou non sur la borne (c’est-à-dire, s’il est dans le top 10 ou non).
 
 Nous pouvons donc écrire une méthode comme ceci :
@@ -104,5 +110,40 @@ if (Anatidae.HighscoreManager.IsHighscore(score))
     // Enregistrer directement un nouveau record avec le pseudo précédemment saisi
     StartCoroutine(Anatidae.HighscoreManager.SetHighscore(Anatidae.HighscoreManager.PlayerName, score)); 
   }
+}
+```
+
+
+#### Anatidae Proxy
+
+Pour rendre compatible certaines requêtes à effectuer vers l'extérieur (appel API par exemple), il est possible d'utiliser la classe `AnatidaeProxyWebRequest`.
+
+Elle est syntaxiquement identique à `UnityWebRequest` `.Get()` et `.Post()`, et retourne un objet de type `UnityWebRequest`.
+
+Pour l'utiliser, prenez un code typique utilisant UnityWebRequest, et remplacez uniquement les `UnityWebRequest.Get` et `UnityWebRequest.Post` par `AnatidaeProxyWebRequest.Get` et `AnatidaeProxyWebRequest.Post`.
+
+```diff
+public IEnumerator GetData()
+{
+-    UnityWebRequest request = UnityWebRequest.Get(/* url */);
++    UnityWebRequest request = AnatidaeProxyWebRequest.Get(/* url */);
+    yield return request.SendWebRequest();
+    if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError) {
+        // Debug.LogError(request.error);
+    } else {
+        // Debug.Log(request.downloadHandler.text);
+    }
+}
+
+public IEnumerator SendData()
+{
+-    UnityWebRequest request = UnityWebRequest.Post(/* url */, /* body */, "application/json");
++    UnityWebRequest request = AnatidaeProxyWebRequest.Post(/* url */, /* body */, "application/json");
+    yield return request.SendWebRequest();
+    if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError) {
+        // Debug.LogError($"{request.result} {request.error}");
+    } else {
+        // Debug.Log(request.downloadHandler.text);
+    }
 }
 ```
