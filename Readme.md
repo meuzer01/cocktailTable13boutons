@@ -1,4 +1,7 @@
 # Anatidae Toolkit
+Cette version est une variante de test adapté pour la table cocktail de MMI. l'original pour la borne d'arcade est accessible ici https://github.com/XariusExcl/anatidae-toolkit 
+
+# Anatidae Toolkit
 
 Anatidae Toolkit contient tous les éléments nécessaires pour créer un jeu compatible avec la borne d'arcade MMI grâce au moteur Unity.
 
