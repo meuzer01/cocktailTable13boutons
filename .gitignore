@@ -71,3 +71,9 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 /.vscode
+# Archive locale, non versionnée
+/Tester.tar
+# Fichiers générés
+*.slnx
+/package-lock.json
+.DS_Store

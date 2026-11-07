@@ -13,16 +13,12 @@ public class InputTest : MonoBehaviour
     [SerializeField] GameObject P1_B4;
     [SerializeField] GameObject P1_B5;
     [SerializeField] GameObject P1_B6;
-    [Space(10)]
-    [Header("Player 2")]
-    [SerializeField] GameObject P2_Joystick;
-    [SerializeField] GameObject P2_Start;
-    [SerializeField] GameObject P2_B1;
-    [SerializeField] GameObject P2_B2;
-    [SerializeField] GameObject P2_B3;
-    [SerializeField] GameObject P2_B4;
-    [SerializeField] GameObject P2_B5;
-    [SerializeField] GameObject P2_B6;
+    [SerializeField] GameObject P1_B7;
+    [SerializeField] GameObject P1_B8;
+    [SerializeField] GameObject P1_B9;
+    [SerializeField] GameObject P1_B10;
+    [SerializeField] GameObject P1_B11;
+    [SerializeField] GameObject P1_B12;
     [Space(10)]
     [SerializeField] GameObject Reset;
 
@@ -35,16 +31,13 @@ public class InputTest : MonoBehaviour
         P1_B4.SetActive(Input.GetButton("P1_B4"));
         P1_B5.SetActive(Input.GetButton("P1_B5"));
         P1_B6.SetActive(Input.GetButton("P1_B6"));
+        P1_B7.SetActive(Input.GetButton("P1_B7"));
+        P1_B8.SetActive(Input.GetButton("P1_B8"));
+        P1_B9.SetActive(Input.GetButton("P1_B9"));
+        P1_B10.SetActive(Input.GetButton("P1_B10"));
+        P1_B11.SetActive(Input.GetButton("P1_B11"));
+        P1_B12.SetActive(Input.GetButton("P1_B12"));
         P1_Start.SetActive(Input.GetButton("P1_Start"));
-
-        P2_Joystick.transform.localPosition = new Vector3(Input.GetAxisRaw("P2_Horizontal")*100f, Input.GetAxisRaw("P2_Vertical")*100f, 0);
-        P2_B1.SetActive(Input.GetButton("P2_B1"));
-        P2_B2.SetActive(Input.GetButton("P2_B2"));
-        P2_B3.SetActive(Input.GetButton("P2_B3"));
-        P2_B4.SetActive(Input.GetButton("P2_B4"));
-        P2_B5.SetActive(Input.GetButton("P2_B5"));
-        P2_B6.SetActive(Input.GetButton("P2_B6"));
-        P2_Start.SetActive(Input.GetButton("P2_Start"));
 
         Reset.SetActive(Input.GetButton("Coin"));
     }
